@@ -1,153 +1,765 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ms">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Jejak Pendidikan Malaysia</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Jejak Pendidikan Malaysia</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Trebuchet MS", Arial, sans-serif;
+    background: #fff8ed;
+    color: #26364b;
+}
+
+header {
+    background: #fff;
+    padding: 18px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 3px 10px #00000010;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+    color: #167db5;
+}
+
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+nav button {
+    border: none;
+    border-radius: 20px;
+    padding: 10px 15px;
+    background: #e9f5ff;
+    color: #176a9b;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+nav button:hover {
+    background: #cdeaff;
+}
+
+main {
+    max-width: 1100px;
+    margin: auto;
+    padding: 30px 20px;
+}
+
+.page {
+    display: none;
+    animation: fade 0.4s;
+}
+
+.page.active {
+    display: block;
+}
+
+@keyframes fade {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h1 {
+    font-size: 36px;
+    margin-bottom: 15px;
+    color: #176a9b;
+}
+
+h2 {
+    margin: 25px 0 12px;
+    color: #176a9b;
+}
+
+p {
+    line-height: 1.8;
+    margin-bottom: 15px;
+}
+
+.hero {
+    background: linear-gradient(135deg, #bde9ff, #fff0b8);
+    padding: 55px 30px;
+    border-radius: 25px;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.hero h1 {
+    font-size: 42px;
+}
+
+.card {
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    margin: 20px 0;
+    box-shadow: 0 5px 15px #00000008;
+}
+
+.profile {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 30px;
+    align-items: start;
+}
+
+.photo-box {
+    width: 100%;
+    min-height: 320px;
+    background: #e8f5ff;
+    border: 3px dashed #76bde5;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    text-align: center;
+}
+
+.photo-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+input[type="file"] {
+    margin-top: 15px;
+    max-width: 100%;
+}
+
+.info {
+    background: #f0f9ff;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+}
+
+.timeline {
+    border-left: 4px solid #70c7e8;
+    padding-left: 25px;
+    margin: 25px 0;
+}
+
+.timeline-item {
+    background: #f0f9ff;
+    padding: 18px;
+    margin-bottom: 20px;
+    border-radius: 15px;
+}
+
+button.action {
+    background: #238ac2;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 13px 22px;
+    margin: 8px 5px 8px 0;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+button.action:hover {
+    background: #126b9b;
+}
+
+button.back {
+    background: #ffdf87;
+    color: #624716;
+}
+
+.quiz {
+    background: #fff5cf;
+    border: 2px solid #f5d76e;
+    padding: 25px;
+    border-radius: 20px;
+    margin-top: 25px;
+}
+
+.quiz button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 13px;
+    border: 2px solid #e6e6e6;
+    background: white;
+    border-radius: 12px;
+    margin: 10px 0;
+    cursor: pointer;
+}
+
+.quiz button:hover {
+    background: #e8f5ff;
+}
+
+.feedback {
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+footer {
+    text-align: center;
+    padding: 30px;
+    background: #e7f5ff;
+    margin-top: 40px;
+}
+
+@media (max-width: 700px) {
+    .profile {
+        grid-template-columns: 1fr;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    header {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+</style>
 </head>
+
 <body>
-<header class="topbar">
-  <a class="brand" href="#home" aria-label="Kembali ke laman utama">🕰️ Jejak Pendidikan Malaysia</a>
-  <button class="menu-toggle" id="menuToggle" aria-label="Buka menu">☰</button>
-  <nav id="nav">
-    <a href="#home">Mula</a><a href="#pengenalan">Pengenalan</a><a href="#profil">Profil</a>
-    <a href="#semenanjung">Semenanjung</a><a href="#sabah">Sabah</a><a href="#sarawak">Sarawak</a>
-    <a href="#tokoh">Tokoh</a><a href="#kuiz">Kuiz</a>
-  </nav>
+
+<header>
+    <div class="logo">⏳ Jejak Pendidikan Malaysia</div>
+
+    <nav>
+        <button onclick="showPage('home')">Mula</button>
+        <button onclick="showPage('pengenalan')">Pengenalan</button>
+        <button onclick="showPage('diri')">Profil Saya</button>
+        <button onclick="showPage('semenanjung')">Semenanjung</button>
+        <button onclick="showPage('sabah')">Sabah</button>
+        <button onclick="showPage('sarawak')">Sarawak</button>
+        <button onclick="showPage('tokoh')">Tokoh</button>
+    </nav>
 </header>
 
 <main>
-  <section class="page hero active" id="home">
-    <div class="hero-copy">
-      <span class="eyebrow">PENGEMBARAAN SEJARAH</span>
-      <h1>Jom Teroka<br><em>Sejarah Pendidikan Malaysia!</em></h1>
-      <p>Ikuti Aiman dan Cikgu Masa menelusuri perkembangan pendidikan di Semenanjung Malaysia, Sabah dan Sarawak.</p>
-      <div class="actions"><a class="btn primary" href="#pengenalan">Mulakan Pengembaraan →</a><a class="btn secondary" href="#kuiz">Terus ke Kuiz ✨</a></div>
-    </div>
-    <div class="hero-art" aria-label="Ilustrasi pengembaraan sejarah">🧒🏻 🕰️ 📚</div>
-    <div class="note">Pilih lokasi pada menu untuk belajar mengikut kawasan.</div>
-  </section>
 
-  <section class="page" id="pengenalan">
-    <div class="section-head"><span class="eyebrow">01 · KENALI LAMAN</span><h1>Pengenalan Laman Web</h1></div>
-    <div class="paper">
-      <p><strong>Jejak Pendidikan Malaysia</strong> ialah laman pembelajaran interaktif yang membawa murid mengenali sejarah perkembangan pendidikan di Malaysia melalui cerita, garis masa, aktiviti dan kuiz ringkas.</p>
-      <h2>Objektif pembelajaran</h2>
-      <ul><li>Mengenal pasti perkembangan pendidikan di Semenanjung Malaysia, Sabah dan Sarawak.</li><li>Menyusun peristiwa pendidikan mengikut urutan masa.</li><li>Menghargai sumbangan tokoh dan usaha membina sistem pendidikan kebangsaan.</li></ul>
-      <h2>Kriteria kejayaan</h2>
-      <p>Murid dapat menyatakan sekurang-kurangnya satu perkembangan penting bagi setiap wilayah dan menjawab soalan aktiviti dengan betul.</p>
-      <div class="callout">💡 Cara belajar: baca cerita → teroka garis masa → cuba permainan → jawab kuiz.</div>
-    </div>
-    <div class="page-actions"><a class="btn secondary" href="#home">← Kembali</a><a class="btn primary" href="#profil">Seterusnya →</a></div>
-  </section>
+<!-- HALAMAN UTAMA -->
 
-  <section class="page" id="profil">
-    <div class="section-head"><span class="eyebrow">02 · KENALI PENCIPTA</span><h1>Pengenalan Diri</h1></div>
-    <div class="profile-layout">
-      <div class="photo-frame">
-        <img src="assets/profile-placeholder.svg" alt="Tempat untuk memasukkan gambar sendiri">
-        <p>Gantikan gambar ini dengan foto anda.</p>
-      </div>
-      <div class="paper profile-info">
-        <h2>Maklumat Pelajar</h2>
-        <dl>
-          <dt>Nama</dt><dd>WONG TONG ENG</dd>
-          <dt>No. Kad Pengenalan</dt><dd>ISI SENDIRI</dd>
-          <dt>Angka Giliran</dt><dd>2025302310232</dd>
-          <dt>Kumpulan / Unit</dt><dd>PENDIDIKAN JASMANI</dd>
-          <dt>Kod dan Nama Kursus</dt><dd>GADP 1032 – Asas Pembelajaran Digital</dd>
-          <dt>Pensyarah</dt><dd>ENCIK MUAZMAN BIN ALI@ISMAIL</dd>
-        </dl>
-        <p class="small">Sila semak dan kemas kini maklumat sebelum menghantar tugasan.</p>
-      </div>
-    </div>
-    <div class="page-actions"><a class="btn secondary" href="#pengenalan">← Kembali</a><a class="btn primary" href="#semenanjung">Teroka Sejarah →</a></div>
-  </section>
+<section id="home" class="page active">
 
-  <section class="page learning" id="semenanjung">
-    <div class="section-head"><span class="eyebrow">03 · ZON 1</span><h1>Pendidikan di Semenanjung Malaysia</h1><p>Daripada sekolah pelbagai aliran kepada usaha membina sistem pendidikan kebangsaan.</p></div>
-    <div class="timeline">
-      <article><span>SEBELUM MERDEKA</span><h2>Sekolah mengikut aliran</h2><p>Semasa pentadbiran British, sekolah Melayu, Cina, Tamil dan Inggeris berkembang dengan bahasa pengantar, kurikulum serta peluang pendidikan yang berbeza. Pendidikan Melayu umumnya menyediakan pendidikan asas, manakala sekolah Inggeris lebih tertumpu di bandar.</p></article>
-      <article><span>1956</span><h2>Laporan Razak</h2><p>Menjadi asas pembentukan sistem pendidikan kebangsaan dengan matlamat perpaduan, kurikulum yang lebih seragam dan Bahasa Melayu sebagai bahasa kebangsaan.</p></article>
-      <article><span>1960–1961</span><h2>Laporan Rahman Talib dan Akta Pelajaran 1961</h2><p>Meneruskan usaha menyelaraskan pendidikan, memperkukuh Bahasa Melayu dan memperluas peluang pendidikan.</p></article>
-      <article><span>1979–1988</span><h2>Laporan Jawatankuasa Kabinet dan Akta Pendidikan 1996</h2><p>Penambahbaikan sistem memberi perhatian kepada mutu, akses dan keperluan pendidikan negara. Akta Pendidikan 1996 menjadi kerangka penting sistem pendidikan moden.</p></article>
-    </div>
-    <div class="game">
-      <h2>🎮 Mini-game: Pilih jawapan</h2><p>Apakah tujuan utama Laporan Razak 1956?</p>
-      <div class="choices" data-answer="B" data-feedback="Laporan Razak menekankan sistem pendidikan kebangsaan dan perpaduan.">
-        <button data-choice="A">A. Mengasingkan murid mengikut kaum</button>
-        <button data-choice="B">B. Membina sistem pendidikan kebangsaan dan perpaduan</button>
-        <button data-choice="C">C. Menghapuskan semua sekolah</button>
-      </div><p class="feedback" aria-live="polite"></p>
-    </div>
-    <div class="page-actions"><a class="btn secondary" href="#profil">← Kembali</a><a class="btn primary" href="#sabah">Seterusnya: Sabah →</a></div>
-  </section>
+    <div class="hero">
+        <h1>JEJAK PENDIDIKAN MALAYSIA</h1>
 
-  <section class="page learning" id="sabah">
-    <div class="section-head"><span class="eyebrow">04 · ZON 2</span><h1>Pendidikan di Sabah</h1><p>Perkembangan pendidikan daripada sekolah misi dan komuniti kepada sistem kebangsaan.</p></div>
-    <div class="timeline">
-      <article><span>SEBELUM 1946</span><h2>Sekolah misi dan komuniti</h2><p>Pendidikan formal berkembang secara berperingkat melalui sekolah misi, sekolah komuniti dan usaha pentadbiran tempatan. Akses pendidikan tidak sama rata, khususnya di kawasan pedalaman.</p></article>
-      <article><span>1946–1963</span><h2>Pentadbiran British</h2><p>Selepas Perang Dunia Kedua, pentadbiran kolonial memperluas usaha pendidikan tetapi kemudahan dan peluang masih terhad serta tidak seimbang antara bandar dengan pedalaman.</p></article>
-      <article><span>1963</span><h2>Sabah menyertai Malaysia</h2><p>Selepas pembentukan Malaysia, pendidikan Sabah beransur-ansur diselaraskan dengan dasar pendidikan kebangsaan. Pembinaan sekolah, latihan guru dan peluasan akses menjadi keutamaan.</p></article>
-      <article><span>SELEPAS MERDEKA</span><h2>Memperluas akses</h2><p>Usaha diteruskan untuk menangani jarak geografi, kekurangan kemudahan dan keperluan pendidikan komuniti pedalaman, sambil meningkatkan mutu pengajaran dan pembelajaran.</p></article>
-    </div>
-    <div class="game">
-      <h2>🎮 Mini-game: Betul atau salah?</h2><p>Cabaran geografi: Sabah menghadapi cabaran memperluas pendidikan kerana sebahagian komuniti tinggal jauh dari pusat bandar.</p>
-      <div class="choices" data-answer="A" data-feedback="Betul. Jarak dan keadaan geografi menjadikan akses pendidikan di kawasan pedalaman satu cabaran.">
-        <button data-choice="A">Betul</button><button data-choice="B">Salah</button>
-      </div><p class="feedback" aria-live="polite"></p>
-    </div>
-    <div class="page-actions"><a class="btn secondary" href="#semenanjung">← Kembali</a><a class="btn primary" href="#sarawak">Seterusnya: Sarawak →</a></div>
-  </section>
+        <p>
+            Mari mengembara merentasi masa untuk mengenali
+            sejarah perkembangan pendidikan di Malaysia!
+        </p>
 
-  <section class="page learning" id="sarawak">
-    <div class="section-head"><span class="eyebrow">05 · ZON 3</span><h1>Pendidikan di Sarawak</h1><p>Perkembangan sekolah, latihan guru dan penyelarasan pendidikan selepas pembentukan Malaysia.</p></div>
-    <div class="timeline">
-      <article><span>SEBELUM 1946</span><h2>Sekolah misi dan tempatan</h2><p>Sekolah misi memainkan peranan penting dalam pendidikan formal. Peluang pendidikan berbeza mengikut kawasan dan komuniti, sementara banyak kawasan luar bandar sukar mendapat kemudahan sekolah.</p></article>
-      <article><span>1946–1963</span><h2>Pemerintahan British</h2><p>Selepas Sarawak menjadi tanah jajahan British pada 1946, pendidikan berkembang secara beransur-ansur. Kekangan infrastruktur dan taburan penduduk mempengaruhi akses pendidikan.</p></article>
-      <article><span>1963</span><h2>Pembentukan Malaysia</h2><p>Sarawak menyertai Malaysia. Sistem pendidikan kemudiannya bergerak ke arah penyelarasan dengan dasar kebangsaan, termasuk pengembangan sekolah dan latihan guru.</p></article>
-      <article><span>SELEPAS MERDEKA</span><h2>Pendidikan untuk semua</h2><p>Usaha memperluas akses ke kawasan pedalaman, memperbaiki kemudahan dan meningkatkan kualiti pendidikan terus menjadi agenda penting.</p></article>
+        <button class="action" onclick="showPage('pengenalan')">
+            Mula Pengembaraan →
+        </button>
     </div>
-    <div class="game">
-      <h2>🎮 Mini-game: Padankan fakta</h2><p>Fakta manakah berkaitan dengan cabaran pendidikan Sarawak?</p>
-      <div class="choices" data-answer="C" data-feedback="Ya. Taburan penduduk dan jarak ke kawasan pedalaman mempengaruhi akses sekolah.">
-        <button data-choice="A">Semua sekolah berada di bandar</button>
-        <button data-choice="B">Tiada sekolah misi</button>
-        <button data-choice="C">Jarak dan akses ke kawasan pedalaman</button>
-      </div><p class="feedback" aria-live="polite"></p>
-    </div>
-    <div class="page-actions"><a class="btn secondary" href="#sabah">← Kembali</a><a class="btn primary" href="#tokoh">Kenali Tokoh →</a></div>
-  </section>
 
-  <section class="page" id="tokoh">
-    <div class="section-head"><span class="eyebrow">06 · TOKOH PENDIDIKAN</span><h1>Tokoh dan Sumbangan</h1></div>
-    <div class="cards">
-      <article class="paper"><h2>Abdul Rahman Talib</h2><p>Memimpin usaha pendidikan yang membawa kepada Laporan Rahman Talib (1960), termasuk pengukuhan Bahasa Melayu dan peluasan peluang pendidikan.</p></article>
-      <article class="paper"><h2>Abdul Razak Hussein</h2><p>Memimpin Jawatankuasa Pelajaran yang menghasilkan Laporan Razak 1956 sebagai asas sistem pendidikan kebangsaan.</p></article>
-      <article class="paper"><h2>Tokoh pendidikan tempatan</h2><p>Guru, pemimpin komuniti dan penggerak sekolah di Sabah serta Sarawak turut membantu membuka akses pendidikan, khususnya melalui sekolah tempatan dan misi.</p></article>
-    </div>
-    <div class="callout">Nota: Lengkapkan bahagian tokoh dengan tokoh pra-merdeka dan pasca-merdeka yang telah dihuraikan dalam penulisan tugasan anda.</div>
-    <div class="page-actions"><a class="btn secondary" href="#sarawak">← Kembali</a><a class="btn primary" href="#kuiz">Cuba Kuiz →</a></div>
-  </section>
+    <div class="card">
+        <h2>🌟 Selamat Datang, Pengembara Sejarah!</h2>
 
-  <section class="page" id="kuiz">
-    <div class="section-head"><span class="eyebrow">07 · UJI MINDA</span><h1>Kuiz Pengembaraan</h1><p>Jawab soalan ringkas untuk menguji ingatan anda.</p></div>
-    <div class="game quiz">
-      <h2>Soalan 1</h2><p>Apakah laporan yang menjadi asas sistem pendidikan kebangsaan pada tahun 1956?</p>
-      <div class="choices" data-answer="B" data-feedback="Tepat! Laporan Razak 1956 menjadi asas sistem pendidikan kebangsaan.">
-        <button data-choice="A">Laporan Barnes</button><button data-choice="B">Laporan Razak</button><button data-choice="C">Laporan Cheeseman</button>
-      </div><p class="feedback" aria-live="polite"></p>
-      <hr>
-      <h2>Soalan 2</h2><p>Namakan dua wilayah di Borneo yang perlu dikaji bersama Semenanjung dalam sejarah pendidikan Malaysia.</p>
-      <div class="choices" data-answer="A" data-feedback="Betul! Sabah dan Sarawak mempunyai perkembangan pendidikan tersendiri.">
-        <button data-choice="A">Sabah dan Sarawak</button><button data-choice="B">Perlis dan Kedah</button><button data-choice="C">Melaka dan Johor</button>
-      </div><p class="feedback" aria-live="polite"></p>
+        <p>
+            Bersama Aiman dan Cikgu Masa, kita akan meneroka
+            perjalanan pendidikan di Semenanjung Malaysia,
+            Sabah dan Sarawak.
+        </p>
+
+        <p>
+            Sediakan diri untuk membaca kisah sejarah,
+            mengenali tokoh pendidikan dan mencuba permainan
+            interaktif yang menyeronokkan!
+        </p>
     </div>
-    <div class="page-actions"><a class="btn secondary" href="#tokoh">← Kembali</a><a class="btn primary" href="#home">Kembali ke Mula ↗</a></div>
-  </section>
+
+</section>
+
+<!-- PENGENALAN WEBSITE -->
+
+<section id="pengenalan" class="page">
+
+    <h1>📖 Pengenalan Laman Web</h1>
+
+    <div class="card">
+
+        <p>
+            Laman web Jejak Pendidikan Malaysia dibangunkan
+            sebagai satu persekitaran pembelajaran digital
+            interaktif yang membantu murid memahami sejarah
+            perkembangan pendidikan di Malaysia.
+        </p>
+
+        <p>
+            Melalui pengembaraan sejarah ini, murid dapat
+            meneroka perkembangan pendidikan di Semenanjung
+            Malaysia, Sabah dan Sarawak serta mengenali
+            sumbangan tokoh-tokoh pendidikan.
+        </p>
+
+        <h2>🎯 Objektif Pembelajaran</h2>
+
+        <ul>
+            <li>Mengenal pasti perkembangan sistem pendidikan di Malaysia.</li>
+            <li>Menjelaskan perubahan pendidikan sebelum dan selepas kemerdekaan.</li>
+            <li>Mengenali tokoh pendidikan dan sumbangan mereka.</li>
+            <li>Menghargai kepentingan pendidikan dalam pembinaan negara bangsa.</li>
+        </ul>
+
+        <h2>🏆 Kriteria Kejayaan</h2>
+
+        <p>
+            Murid dapat menyatakan sekurang-kurangnya tiga
+            fakta sejarah pendidikan dan menjawab soalan
+            kuiz dengan betul.
+        </p>
+
+    </div>
+
+    <button class="action back" onclick="showPage('home')">
+        ← Kembali
+    </button>
+
+</section>
+
+<!-- PENGENALAN DIRI -->
+
+<section id="diri" class="page">
+
+    <h1>👩‍🎓 Pengenalan Diri</h1>
+
+    <div class="card profile">
+
+        <div>
+            <div class="photo-box" id="photoBox">
+                <span>📷 Ruang untuk gambar anda</span>
+            </div>
+
+            <input type="file"
+                   accept="image/*"
+                   onchange="uploadPhoto(event)">
+        </div>
+
+        <div>
+
+            <div class="info">
+                <strong>Nama:</strong><br>
+                WONG TONG ENG
+            </div>
+
+            <div class="info">
+                <strong>Angka Giliran:</strong><br>
+                2025302310232
+            </div>
+
+            <div class="info">
+                <strong>Program:</strong><br>
+                Pendidikan Jasmani
+            </div>
+
+            <div class="info">
+                <strong>Kod Kursus:</strong><br>
+                GAPD1032 Asas Pembelajaran Digital
+            </div>
+
+            <div class="info">
+                <strong>Pensyarah:</strong><br>
+                Encik Muazman bin Ali @ Ismail
+            </div>
+
+            <p>
+                Laman web ini dibangunkan sebagai sebahagian
+                daripada tugasan pembangunan produk
+                pembelajaran multimedia interaktif.
+            </p>
+
+        </div>
+    </div>
+
+    <button class="action back" onclick="showPage('home')">
+        ← Kembali
+    </button>
+
+</section>
+
+<!-- SEMENANJUNG -->
+
+<section id="semenanjung" class="page">
+
+    <h1>🏫 Pendidikan di Semenanjung Malaysia</h1>
+
+    <div class="card">
+
+        <p>
+            Perkembangan pendidikan di Semenanjung Malaysia
+            mengalami perubahan daripada sistem pendidikan
+            tradisional kepada sistem pendidikan kebangsaan
+            yang lebih tersusun.
+        </p>
+
+        <div class="timeline">
+
+            <div class="timeline-item">
+                <h3>📜 Zaman Penjajahan British</h3>
+
+                <p>
+                    Sistem pendidikan berkembang melalui
+                    sekolah Melayu, sekolah Cina, sekolah Tamil
+                    dan sekolah Inggeris. Perbezaan bahasa
+                    pengantar dan kurikulum menyebabkan
+                    sistem pendidikan tidak seragam.
+                </p>
+            </div>
+
+            <div class="timeline-item">
+                <h3>📜 Laporan Barnes 1951</h3>
+
+                <p>
+                    Mencadangkan pembentukan sistem persekolahan
+                    yang lebih seragam bagi memupuk perpaduan
+                    masyarakat.
+                </p>
+            </div>
+
+            <div class="timeline-item">
+                <h3>📜 Laporan Razak 1956</h3>
+
+                <p>
+                    Menjadi asas kepada pembentukan sistem
+                    pendidikan kebangsaan dengan Bahasa Melayu
+                    sebagai bahasa kebangsaan dan penekanan
+                    terhadap perpaduan.
+                </p>
+            </div>
+
+            <div class="timeline-item">
+                <h3>📜 Akta Pendidikan 1961</h3>
+
+                <p>
+                    Memperkukuh pelaksanaan dasar pendidikan
+                    kebangsaan dan usaha menyelaraskan sistem
+                    pendidikan.
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="quiz">
+        <h2>🎮 Permainan: Detektif Sejarah</h2>
+
+        <p>
+            Apakah laporan yang menjadi asas kepada
+            pembentukan sistem pendidikan kebangsaan?
+        </p>
+
+        <button onclick="checkAnswer(this, false)">
+            A. Laporan Barnes 1951
+        </button>
+
+        <button onclick="checkAnswer(this, true)">
+            B. Laporan Razak 1956
+        </button>
+
+        <button onclick="checkAnswer(this, false)">
+            C. Laporan Cheeseman 1946
+        </button>
+
+        <div class="feedback"></div>
+    </div>
+
+    <button class="action back" onclick="showPage('home')">
+        ← Kembali
+    </button>
+
+</section>
+
+<!-- SABAH -->
+
+<section id="sabah" class="page">
+
+    <h1>🌴 Pendidikan di Sabah</h1>
+
+    <div class="card">
+
+        <p>
+            Perkembangan pendidikan di Sabah dipengaruhi
+            oleh kegiatan mubaligh Kristian, pentadbiran
+            British dan perubahan selepas pembentukan
+            Malaysia pada tahun 1963.
+        </p>
+
+        <div class="timeline">
+
+            <div class="timeline-item">
+                <h3>📜 Zaman Sebelum Perang</h3>
+
+                <p>
+                    Pendidikan berkembang melalui sekolah
+                    mubaligh dan sekolah vernakular.
+                    Akses pendidikan masih terhad,
+                    khususnya di kawasan pedalaman.
+                </p>
+            </div>
+
+            <div class="timeline-item">
+                <h3>📜 Selepas Perang Dunia Kedua</h3>
+
+                <p>
+                    Usaha membangunkan semula sekolah
+                    dan memperluas peluang pendidikan
+                    dilakukan selepas kemusnahan akibat perang.
+                </p>
+            </div>
+
+            <div class="timeline-item">
+                <h3>📜 Selepas Pembentukan Malaysia 1963</h3>
+
+                <p>
+                    Sistem pendidikan Sabah semakin
+                    diselaraskan dengan dasar pendidikan
+                    kebangsaan bagi meningkatkan peluang
+                    pendidikan dan perpaduan.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="quiz">
+        <h2>🎮 Permainan: Pilih Jawapan</h2>
+
+        <p>
+            Sabah menyertai pembentukan Malaysia pada tahun...
+        </p>
+
+        <button onclick="checkAnswer(this, false)">1957</button>
+        <button onclick="checkAnswer(this, true)">1963</button>
+        <button onclick="checkAnswer(this, false)">1970</button>
+
+        <div class="feedback"></div>
+    </div>
+
+    <button class="action back" onclick="showPage('home')">
+        ← Kembali
+    </button>
+
+</section>
+
+<!-- SARAWAK -->
+
+<section id="sarawak" class="page">
+
+    <h1>🌳 Pendidikan di Sarawak</h1>
+
+    <div class="card">
+
+        <p>
+            Pendidikan di Sarawak berkembang melalui
+            sekolah mubaligh, sekolah Melayu dan
+            perubahan pentadbiran British.
+        </p>
+
+        <div class="timeline">
+
+            <div class="timeline-item">
+                <h3>📜 Zaman Pemerintahan Brooke</h3>
+
+                <p>
+                    Pendidikan formal berkembang secara
+                    terhad melalui sekolah Melayu dan
+                    sekolah mubaligh.
+                </p>
+            </div>
+
+            <div class="timeline-item">
+                <h3>📜 Zaman Kolonial British</h3>
+
+                <p>
+                    Peluang pendidikan diperluas secara
+                    berperingkat, tetapi masih terdapat
+                    perbezaan akses antara kawasan bandar
+                    dengan kawasan pedalaman.
+                </p>
+            </div>
+
+            <div class="timeline-item">
+                <h3>📜 Selepas Pembentukan Malaysia 1963</h3>
+
+                <p>
+                    Pendidikan Sarawak semakin diselaraskan
+                    dengan sistem pendidikan kebangsaan
+                    untuk memperluas akses pendidikan
+                    dan membina perpaduan.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="quiz">
+        <h2>🎮 Permainan: Ingat Fakta</h2>
+
+        <p>
+            Apakah salah satu cabaran pendidikan
+            di Sarawak pada zaman kolonial?
+        </p>
+
+        <button onclick="checkAnswer(this, true)">
+            A. Akses pendidikan di kawasan pedalaman terhad
+        </button>
+
+        <button onclick="checkAnswer(this, false)">
+            B. Semua murid mendapat pendidikan tinggi
+        </button>
+
+        <button onclick="checkAnswer(this, false)">
+            C. Tiada sekolah langsung diwujudkan
+        </button>
+
+        <div class="feedback"></div>
+    </div>
+
+    <button class="action back" onclick="showPage('home')">
+        ← Kembali
+    </button>
+
+</section>
+
+<!-- TOKOH -->
+
+<section id="tokoh" class="page">
+
+    <h1>⭐ Tokoh Pendidikan Malaysia</h1>
+
+    <div class="card">
+
+        <h2>Za'ba</h2>
+
+        <p>
+            Zainal Abidin bin Ahmad atau Za'ba merupakan
+            tokoh bahasa dan pendidikan yang menyumbang
+            kepada perkembangan bahasa Melayu melalui
+            penulisan dan pembinaan sistem tatabahasa.
+        </p>
+
+        <h2>Raja Ali Haji</h2>
+
+        <p>
+            Raja Ali Haji merupakan tokoh persuratan Melayu
+            yang menyumbang kepada perkembangan bahasa
+            dan ilmu melalui karya-karya penulisannya.
+        </p>
+
+        <h2>Abdul Rahman Talib</h2>
+
+        <p>
+            Abdul Rahman Talib memainkan peranan penting
+            dalam perkembangan dasar pendidikan selepas
+            kemerdekaan melalui laporan pendidikan
+            dan usaha memperkukuh sistem pendidikan negara.
+        </p>
+
+    </div>
+
+    <div class="quiz">
+
+        <h2>🎮 Permainan: Padankan Tokoh</h2>
+
+        <p>
+            Siapakah tokoh yang terkenal dengan sumbangan
+            terhadap perkembangan bahasa Melayu?
+        </p>
+
+        <button onclick="checkAnswer(this, true)">Za'ba</button>
+        <button onclick="checkAnswer(this, false)">Abdul Rahman Talib</button>
+        <button onclick="checkAnswer(this, false)">Raja Brooke</button>
+
+        <div class="feedback"></div>
+
+    </div>
+
+    <button class="action back" onclick="showPage('home')">
+        ← Kembali
+    </button>
+
+</section>
+
 </main>
-<footer>Jejak Pendidikan Malaysia · Laman pembelajaran interaktif</footer>
-<script src="script.js"></script>
+
+<footer>
+    <p>Jejak Pendidikan Malaysia | Pembelajaran Digital Interaktif</p>
+</footer>
+
+<script>
+
+function showPage(pageId) {
+
+    document.querySelectorAll(".page").forEach(page => {
+        page.classList.remove("active");
+    });
+
+    document.getElementById(pageId).classList.add("active");
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+function checkAnswer(button, correct) {
+
+    const quiz = button.closest(".quiz");
+    const feedback = quiz.querySelector(".feedback");
+
+    if (correct) {
+        feedback.textContent = "🎉 Tahniah! Jawapan anda betul!";
+        feedback.style.color = "green";
+    } else {
+        feedback.textContent = "Cuba lagi! Baca semula maklumat sejarah.";
+        feedback.style.color = "red";
+    }
+
+}
+
+function uploadPhoto(event) {
+
+    const file = event.target.files[0];
+
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+
+        document.getElementById("photoBox").innerHTML =
+            `<img src="${e.target.result}" alt="Gambar profil">`;
+
+    };
+
+    reader.readAsDataURL(file);
+
+}
+
+</script>
+
 </body>
 </html>
